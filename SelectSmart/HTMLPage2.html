@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+
+<style type="text/css">
+    #tblContainer, #tblcollections, #tblCRUD, td {
+        border: double;
+    }
+
+    th {
+        background-color: darkgray;
+    }
+
+    #dvcollection {
+        height: 500px;
+        overflow-y: scroll;
+    }
+</style>
+
+
+
+<h2>Create Candidate</h2>
+
+<table id="tblContainer" ng-controller="crudController">
+    <tbody>
+        <tr>
+            <td>
+                <table id="tblCRUD">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>Reg No.</span>
+                            </td>
+                            <td>
+                                <input type="text" id="Regno" required="" ng-model="Regno" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Name</span>
+                            </td>
+                            <td>
+                                <input type="text" id="Name" required="" ng-model="Name" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Email</span>
+                            </td>
+                            <td>
+                                <input type="text" id="Email" required="" ng-model="Email" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Phone No</span>
+                            </td>
+                            <td>
+                                <input type="text" id="Phoneno" required="" ng-model="Phoneno" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Department</span>
+                            </td>
+                            <td>
+                                <input type="text" id="Dept" required="" ng-model="Dept" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Skills</span>
+                            </td>
+                            <td>
+                                <input type="text" id="skills" required="" ng-model="skills" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Year of Passing</span>
+                            </td>
+                            <td>
+                                <input type="text" id="Yearofpassing" required="" ng-model="Yearofpassing" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>CGPA</span>
+                            </td>
+                            <td>
+                                <input type="text" id="CGPA" required="" ng-model="CGPA" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Backlogs</span>
+                            </td>
+                            <td>
+                                <input type="text" id="Backlogs" required="" ng-model="Backlogs" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <input type="button" id="new" value="New" ng-click="clear()">
+                            </td>
+                            <td>
+                                <input type="button" id="save" value="Save" ng-click="save()">
+                            </td>
+                            <td>
+                                <input type="button" id="delete" value="Delete" ng-click="delete()">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>{{Message}}</div>
+            </td>
+            <td>
+                <div id="dvcollection">
+                    <table id="tblcollections">
+                        <thead>
+                            <tr>
+                                <th>Reg.No</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone No.</th>
+                                <th>Department</th>
+                                <th>Skills</th>
+                                <th>Year of Passing</th>
+                                <th>CGPA</th>
+                                <th>Backlogs</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="Candidate in Candidate">
+                            <tr ng-click="get(Candidate)">
+                                <td> <span>{{Candidate.Regno}}</span></td>
+                                <td> <span>{{Candidate.Name}}</span></td>
+                                <td> <span>{{Candidate.Email}}</span></td>
+                                <td> <span>{{Candidate.Phoneno}}</span></td>
+                                <td> <span>{{Candidate.Dept}}</span></td>
+                                <td> <span>{{Candidate.skills}}</span></td>
+                                <td> <span>{{Candidate.Yearofpassing}}</span></td>
+                                <td> <span>{{Candidate.CGPA}}</span></td>
+                                <td> <span>{{Candidate.Backlogs}}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/angular-route.js"></script>
+<script src="~/Scripts/SSFOLDER/Module.js"></script>
+<script src="~/Scripts/SSFOLDER/Service.js"></script>
+<script src="~/Scripts/SSFOLDER/Controller.js"></script>

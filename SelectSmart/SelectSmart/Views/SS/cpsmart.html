@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html ng-app="selectsmart">
+<head>
+    <title>CREATE CANDIDATE</title>
+
+    <!--scripts -->
+    <script type="text/javascript" src="js/jquery-3.1.0.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/angular.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!--links-->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+
+    <!-- styles -->
+    <style>
+        .bottomright1 {
+            position: absolute;
+            bottom: 8px;
+            left: 500px;
+            font-size: 10px;
+        }
+
+        .bottomright2 {
+            position: absolute;
+            bottom: 8px;
+            left: 600px;
+            font-size: 20px;
+        }
+
+        .corner {
+            position: absolute;
+        }
+    </style>
+
+    <!-- javascripts -->
+    <script type="text/javascript">
+      var app = angular.module("selectsmart",[])
+      app.controller("crudController",function($scope){
+          $("#save").click(function(){
+              var Name = $("#Name").val();
+              var Regno = $("#Regno").val();
+              var Email = $("#Email").val();
+              var Phoneno = $("#Phoneno").val();
+              var Dept = $("#Dept").val();
+              var skills = $("#skills").val();
+              var Yearofpassing = $("#Yearofpassing").val();
+              var CGPA = $("#CGPA").val();
+              var Backlogs = $("#Backlogs").val();
+              var dataString = $("addcandidate").serialize();
+              if(Name == '' || Regno == '' || Email == '' || Phoneno == '' || Dept == '' || skills == '' || Yearofpassing == '' || CGPA == '' || Backlogs == ''){
+                  $("#msg").html("Please enter all the details");
+              }
+              else{
+                $.ajax({
+                  type: 'POST',
+                  url: 'http://127.0.0.1/SelectSmart/webservice/save.php',
+                  data: dataString,
+                  cache: false,
+                  success: function(result){
+                    $("#msg").html(result);
+                    var Name = $("#Name").val("");
+                    var Regno = $("#Regno").val("");
+                    var Email = $("#Email").val("");
+                    var Phoneno = $("#Phoneno").val("");
+                    var Dept = $("#Dept").val("");
+                    var skills = $("#skills").val("");
+                    var Yearofpassing = $("#Yearofpassing").val("");
+                    var CGPA = $("#CGPA").val("");
+                    var Backlogs = $("#Backlogs").val("");
+                  }
+                });
+              }
+              return false;
+        });
+      });
+    </script>
+
+</head>
+<body ng-controller="crudController">
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand col-md-6">Add Candidate</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <form class="form-horizontal" id="addcandidate">
+            <fieldset>
+                <div class="container p-3 my-9">
+                    <div class="form-group row">
+                        <label for="Name" required class="col-md-5 col-form-label">Name</label>
+                        <div>
+                            <input type="text" class="form-control" name="Name" id="Name" placeholder=" " required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Regno" class="col-md-5 col-form-label">Reg.No</label>
+                        <div>
+                            <input type="text" class="form-control" name="Regno" id="Regno" placeholder=" ">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Email" class="col-md-5 col-form-label">Email address</label>
+                        <div>
+                            <input type="Email" class="form-control" name="Email" id="Email" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Phoneno" class="col-md-5 col-form-label">Phone No.</label>
+                        <div>
+                            <input type="text" class="form-control" name="Phoneno" id="Phoneno" placeholder=" ">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Dept" class="col-md-5 col-form-label">Department</label>
+                        <div>
+                            <select class="form-control" name="Dept" id="Dept">
+                                <option>Select</option>
+                                <option>CSE</option>
+                                <option>ISE</option>
+                                <option>Mechanical</option>
+                                <option>Electrical</option>
+                                <option>Electronic and communication</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="skills" class="col-md-5 col-form-label">Skills</label>
+                        <div>
+                            <select class="form-control" name="skills" id="skills">
+                                <option selected>Select</option>
+                                <option value="C">C</option>
+                                <option value="C++">C++</option>
+                                <option value="Java">Java</option>
+                                <option value="Python">Python</option>
+                                <option value="PHP">PHP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Yearofpassing" class="col-md-5 col-form-label">Year of Passing</label>
+                        <div>
+                            <input type="text" class="form-control" name="Yearofpassing" id="Yearofpassing" placeholder=" ">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="CGPA" class="col-md-5 col-form-label">CGPA</label>
+                        <div>
+                            <input type="text" class="form-control" name="CGPA" id="CGPA" placeholder=" ">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Backlogs" class="col-md-5 col-form-label">Backlogs</label>
+                        <div>
+                            <input type="text" class="form-control" name="Backlogs" id="Backlogs" placeholder=" ">
+                        </div>
+                    </div>
+                    <span id="msg"></span>
+                    <div class="form-group bottomright1 row">
+                        <button type="reset" class="col-md-25 btn btn-primary btn btn-secondary">Cancel</button>
+                    </div>
+                    <div class="form-group bottomright2 row">
+                        <button type="button" id="save" name="save" class="btn btn-secondary">Save</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
