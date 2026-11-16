@@ -1,50 +1,71 @@
-# MvcAdoDemo — candidate CRUD (2020 internship exercise)
+# MvcAdoDemo — Candidate Management Application
 
-An archived **C# / ASP.NET Core MVC 3.1** candidate-management exercise using Razor views, ADO.NET (`System.Data.SqlClient`) and Microsoft SQL Server.
+A C# **ASP.NET Core MVC** application for maintaining student/candidate profiles with Microsoft SQL Server. It represents the candidate-management CRUD workflow developed as part of the 2020 SelectSmart internship work.
 
-The original application was created during the 2020 internship. Later 2026 modernisation commits improve data handling and forms and add an **optional synthetic-data database setup**. These improvements are not represented as original 2020 deliverables.
+## What it does
 
-## Included functionality
+The application provides a simple interface for staff to maintain candidate information:
 
-- List candidate records, display details, create, edit, and delete
-- Controller and strongly typed Razor views
-- SQL Server data-access layer using parameterized commands and stored procedures
-- Model validation for required fields and formats
-- Example SQL schema, procedures, and fictional sample records
+| Screen | What it allows |
+| --- | --- |
+| Candidate list | Browse registration numbers, names, contact information, departments, skills and academic details |
+| Create candidate | Enter a new candidate profile using a web form |
+| Candidate details | Review the stored information for one candidate |
+| Edit candidate | Change an existing candidate's information |
+| Delete candidate | Confirm and remove a record |
 
-## Layout
+Each record includes **registration number, name, email, phone number, department, skills, year of passing, CGPA, and backlogs**. The registration number identifies the candidate.
 
-- `Controllers/candidateController.cs` — MVC action methods
-- `Models/candidate.cs` — model and validation rules
-- `Models/CandidateDataAccessLayer.cs` — SQL Server access
-- `Views/candidate/` — Razor CRUD views
-- `cpsmart.sql` — original basic database creation snippet
-- `sql/schema-and-procedures.sql` — **2026 reconstruction** of SQL objects for demonstration
-- `sql/seed-demo-data.sql` — **2026 synthetic demonstration records**
+## Application flow
 
-## Local setup (unverified)
+```text
+User (browser)
+    |
+    v
+Razor views (candidate forms, table, details)
+    |
+    v
+candidateController.cs (ASP.NET Core MVC actions)
+    |
+    v
+CandidateDataAccessLayer.cs (ADO.NET / SqlClient)
+    |
+    v
+SQL Server (candidate table and CRUD stored procedures)
+```
 
-> **Do not deploy this archival application as a public-facing service.** .NET Core 3.1 and its older dependencies are unsupported. SQL Server and a compatible .NET SDK are required; the application **has passed a restore and Release build** in GitHub Actions (16 November 2026). SQL Server execution and end-to-end runtime operation remain **unverified**.
+A user opens **Candidates**, selects **Create New**, fills out the candidate form, and submits it. The controller validates the input and calls the data-access layer to save the record. The updated list is then displayed. The same controller provides details, edit and delete actions.
 
-1. Use a local/development SQL Server instance. Open SQL Server Management Studio and execute `cpsmart.sql`.
-2. Execute `sql/schema-and-procedures.sql` in the same instance to create `dbo.candidate` and the four stored procedures. This script is a later reconstruction; it is not the original internship schema.
-3. Optionally execute `sql/seed-demo-data.sql` to insert two **fictional** records.
-4. Set the `CPSMART_CONNECTION_STRING` environment variable on your local computer using your own SQL Server credentials. Do **not** put credentials in Git, screenshots, issues, or committed configuration.
-5. With a compatible .NET Core 3.1 SDK installed, try `dotnet restore MvcAdoDemo.csproj` and `dotnet run --project MvcAdoDemo.csproj`; use the port printed in the console and navigate to `/candidate`.
+## Main technologies
 
-### Validation checklist (not yet completed)
+- **C# and ASP.NET Core MVC 3.1** — request handling and application logic
+- **Razor views, HTML, Bootstrap, jQuery validation** — user interface
+- **ADO.NET (`System.Data.SqlClient`)** — database commands and result mapping
+- **Microsoft SQL Server** — candidate records and stored procedures
 
-- [x] Restore and compile the project in GitHub Actions on Windows (16 November 2026; no database used)
-- [ ] Run the SQL scripts against an isolated local SQL Server instance
-- [ ] Test list/details/create/edit/delete using fake candidate data
-- [ ] Check model validation, malformed input and duplicate registration numbers
-- [x] Update `System.Data.SqlClient` from 4.4.0 to 4.8.6 to address reported package advisories
-- [ ] Review remaining dependency and framework security alerts before any deployment
+## Explore the code
 
-Build status: [GitHub Actions — archived ASP.NET Core build](https://github.com/kshero18/select_smart/actions/workflows/mvcado-build.yml). The passing build still warns that the .NET Core 3.1 target framework is out of support.
+- [Candidate model](Models/candidate.cs) — profile fields and input validation
+- [Candidate controller](Controllers/candidateController.cs) — create, list, details, edit and delete actions
+- [Data-access layer](Models/CandidateDataAccessLayer.cs) — parameterized SQL query and stored-procedure calls
+- [Razor candidate views](Views/candidate/) — screens and forms
+- [Database scripts](sql/) — reconstructed schema, procedures, and fictional sample candidates
 
-## Archival and security notes
+## Local demo setup
 
-The recovered 2020 code originally included a database connection string. The public copy removes that detail and reads the connection information from the local `CPSMART_CONNECTION_STRING` environment variable. Changes to old code should be understood as later portfolio modernisation, not evidence of historical implementation details.
+The ASP.NET Core application **builds successfully** in [GitHub Actions](https://github.com/kshero18/select_smart/actions/workflows/mvcado-build.yml), but execution with SQL Server and end-to-end CRUD have not been verified.
 
-The database scripts in `sql/` are newly authored demonstrations and do not prove that the archived source is a complete or runnable copy of the internship application.
+1. Set up a local Microsoft SQL Server instance and open SQL Server Management Studio.
+2. Run [`cpsmart.sql`](cpsmart.sql) to create the database.
+3. Run [`sql/schema-and-procedures.sql`](sql/schema-and-procedures.sql) to create the candidate table and stored procedures.
+4. Optionally run [`sql/seed-demo-data.sql`](sql/seed-demo-data.sql) to insert fictional candidates.
+5. Set the `CPSMART_CONNECTION_STRING` environment variable locally with a connection string for your development database. Never commit passwords.
+6. With a compatible .NET SDK, run `dotnet restore MvcAdoDemo.csproj` and `dotnet run --project MvcAdoDemo.csproj`, then use the displayed local URL and navigate to `/candidate`.
+
+## Project context
+
+This is historical internship work, not a currently deployed product. The original source dates to **2020**; later maintenance improved validation, queries and Razor forms. The SQL setup under `sql/` and its fictional sample records were reconstructed for demonstration and should not be mistaken for original internship deliverables.
+
+**Known limitations:** .NET Core 3.1 is no longer supported; the database-backed application has not yet been runtime-tested; it should not be deployed publicly without an upgrade and security review. The broader SelectSmart project also discusses filtering, Excel workflows and bulk emails, but those are **not features of this CRUD demo**.
+
+[Back to the overall SelectSmart project](../README.md)
