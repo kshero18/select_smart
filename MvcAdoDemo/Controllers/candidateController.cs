@@ -1,91 +1,73 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MvcAdoDemo.Models;
+
 namespace MvcAdoDemo.Controllers
 {
+    // Keep original route/controller naming for compatibility with the archived views.
     public class candidateController : Controller
     {
-        CandidateDataAccessLayer objcandidate = new CandidateDataAccessLayer();
+        private readonly CandidateDataAccessLayer data = new CandidateDataAccessLayer();
+
         public IActionResult Index()
         {
-            List<candidate> lstcandidate = new List<candidate>();
-            lstcandidate = objcandidate.GetAllCandidate().ToList();
-            return View(lstcandidate);
-        }
-        [HttpGet]  public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]  [ValidateAntiForgeryToken]  public IActionResult Create([Bind] candidate candidate)
-        {
-            if (ModelState.IsValid)
-            {
-                objcandidate.AddCandidate(candidate);
-                return RedirectToAction("Index");
-            }
-            return View(candidate);
-        }
-        [HttpGet]  public IActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            candidate candidate = objcandidate.GetCandidateData(id);
-            if (candidate == null)
-            {
-                return NotFound();
-            }
-            return View(candidate);
-        }
-        [HttpPost]  [ValidateAntiForgeryToken]  public IActionResult Edit(int id, [Bind]candidate candidate)
-        {
-            if (id != candidate.Regno)
-            {
-                return NotFound();
-            }
-            if (ModelState.IsValid)
-            {
-                objcandidate.UpdateCandidate(candidate);
-                return RedirectToAction("Index");
-            }
-            return View(candidate);
-        }
-        [HttpGet]  public IActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            candidate candidate = objcandidate.GetCandidateData(id);
-            if (candidate == null)
-            {
-                return NotFound();
-            }
-            return View(candidate);
-        }
-        [HttpGet]  public IActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            candidate candidate = objcandidate.GetCandidateData(id);
-            if (candidate == null)
-            {
-                return NotFound();
-            }
-            return View(candidate);
-        }
-        [HttpPost, ActionName("Delete")]  [ValidateAntiForgeryToken]  public IActionResult DeleteConfirmed(int? id)
-        {
-            objcandidate.DeleteCandidate(id);
-            return RedirectToAction("Index");
+            return View(data.GetAllCandidate().ToList());
         }
 
+        [HttpGet]
+        public IActionResult Create() => View();
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(candidate value)
+        {
+            if (!ModelState.IsValid) return View(value);
+            data.AddCandidate(value);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue) return NotFound();
+            var value = data.GetCandidateData(id);
+            return value == null ? NotFound() : View(value);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue) return NotFound();
+            var value = data.GetCandidateData(id);
+            return value == null ? NotFound() : View(value);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, candidate value)
+        {
+            if (id != value.Regno) return NotFound();
+            if (!ModelState.IsValid) return View(value);
+            if (data.GetCandidateData(id) == null) return NotFound();
+            data.UpdateCandidate(value);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (!id.HasValue) return NotFound();
+            var value = data.GetCandidateData(id);
+            return value == null ? NotFound() : View(value);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int? id)
+        {
+            if (!id.HasValue || data.GetCandidateData(id) == null) return NotFound();
+            data.DeleteCandidate(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
