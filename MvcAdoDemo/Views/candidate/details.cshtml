@@ -1,0 +1,69 @@
+@model MvcAdoDemo.Models.candidate
+@{
+    ViewData["Title"] = "Details";
+}
+<h2>Details</h2>
+<div>
+    <h4>Employees</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Regno)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Regno)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phoneno)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Phoneno)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Dept)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Dept)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.skills)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.skills)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Yearofpassing)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Yearofpassing)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CGPA)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CGPA)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Backlogs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Backlogs)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Regno">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
