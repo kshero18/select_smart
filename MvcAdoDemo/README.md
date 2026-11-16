@@ -2,7 +2,7 @@
 
 An archived **C# / ASP.NET Core MVC 3.1** candidate-management exercise using Razor views, ADO.NET (`System.Data.SqlClient`) and Microsoft SQL Server.
 
-The original application was created during the 2020 internship. Subsequent commits on `portfolio-modernisation-2026` improve data handling and forms and add an **optional synthetic-data database setup**. These improvements are not represented as original 2020 deliverables.
+The original application was created during the 2020 internship. Later 2026 modernisation commits improve data handling and forms and add an **optional synthetic-data database setup**. These improvements are not represented as original 2020 deliverables.
 
 ## Included functionality
 
