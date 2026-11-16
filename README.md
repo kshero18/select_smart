@@ -2,7 +2,7 @@
 
 **SelectSmart** is a web-based student and candidate management project developed during a January–February 2020 internship at Generis Technologies, Bengaluru. The application concept was to help academic or placement teams organise student profiles, review candidate information, and support communication and selection workflows.
 
-This repository contains two related implementations of the **candidate management** part of that project: the original ASP.NET MVC / AngularJS application and a smaller ASP.NET Core MVC CRUD application.
+**Two separate codebases from the 2020 internship have been uploaded here:** an ASP.NET MVC 5 / AngularJS implementation (`SelectSmart/`) and an ASP.NET Core MVC 3.1 candidate CRUD implementation (`MvcAdoDemo/`). They are two related implementations, **not a confirmed v1 → v2 development sequence**. Both were recovered from older internship materials and later subjected to an attempt to restore and preserve them for portfolio use.
 
 ## What the application is for
 
@@ -84,13 +84,20 @@ A placement team member opens the candidate list, reviews student profiles, and 
 
 This describes the workflow supported by the candidate-management code; it is **not a claim that the full internship platform is presently deployed**.
 
-## Project background
+## Project origin and restoration
 
 **Internship:** Generis Technologies, Bengaluru  
-**Period:** January–February 2020  
-**Project:** Student Academic Activities Management Platform / SelectSmart
+**Original work:** January–February 2020  
+**Project:** Student Academic Activities Management Platform / SelectSmart  
+**GitHub preservation/restoration attempt:** 2026
 
-This work was part of an internship team project. The repository preserves relevant candidate-management implementations and documents the broader application idea; it does not claim sole ownership of the whole platform.
+Both uploaded codebases come from the 2020 internship materials. They were retained in older project files and uploaded to GitHub years later. The 2026 work was an **attempt to recover, sanitise, compile and restore the historical source**, not a claim that these applications were newly developed in 2026.
+
+The two source folders should not be interpreted as formally numbered releases of one complete application. Their precise relationship in the original development process, and whether either represents the final internship submission, have **not been independently verified**. In particular, the recovered `SelectSmart/` source has not been shown to be the exact final 2020 deliverable.
+
+The ASP.NET Core code has subsequently received some fixes and reconstructed SQL demo scripts to aid restoration. Those additions are separately identifiable in Git history and **are not presented as work completed in 2020**.
+
+This was an internship team project; this repository does not claim sole authorship or ownership of the entire platform.
 
 ## Running the project and current status
 
@@ -99,4 +106,4 @@ This work was part of an internship team project. The repository preserves relev
 - **Database demonstration:** [SQL setup scripts](MvcAdoDemo/sql/) create a candidate table, procedures, and fictional records for local experimentation. Those scripts were reconstructed later, not part of the recovered original database.
 - **Security:** These are historical applications using older frameworks. Do not deploy publicly without reviewing dependencies and security controls. Database credentials and real candidate records are not included.
 
-This repository showcases the **application design, candidate data model, web development, and data-access patterns** of the internship project. Subsequent source-recovery and technical changes are tracked in Git history, rather than being presented as original 2020 functionality.
+This repository showcases the **application design, candidate data model, web development and data-access patterns** represented by the two historical codebases. Restoration remains partial: a passing build for the ASP.NET Core implementation is not proof that either full application has been recovered and tested end to end.
