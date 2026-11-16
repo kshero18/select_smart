@@ -9,7 +9,7 @@ This repository contains two related C# implementations recovered from internshi
 | Project | Stack | What is included | Current status |
 | --- | --- | --- | --- |
 | [SelectSmart](SelectSmart/) | C#, ASP.NET MVC 5, .NET Framework 4.7.2, AngularJS, SQL Server | Candidate controller, models, AngularJS scripts, Razor/HTML assets and a Visual Studio solution | Historical source; not verified to build or run |
-| [MvcAdoDemo](MvcAdoDemo/) | C#, ASP.NET Core MVC 3.1, Razor, ADO.NET (`System.Data.SqlClient`), SQL Server | Candidate listing, creation, details, editing, deletion, and stored-procedure calls | Historical source; 2026 demo schema/procedures added; build and execution still unverified |
+| [MvcAdoDemo](MvcAdoDemo/) | C#, ASP.NET Core MVC 3.1, Razor, ADO.NET (`System.Data.SqlClient`), SQL Server | Candidate listing, creation, details, editing, deletion, and stored-procedure calls | Historical source; 2026 synthetic schema added; CI build passed; SQL runtime unverified |
 
 ## Project context and contributions
 
@@ -44,7 +44,7 @@ These were activities within an internship/team project. **Not every feature des
 **This is an archival portfolio, not a production-ready service.**
 
 - Both implementations are based on older, unsupported frameworks/dependencies. Do not deploy them publicly as-is.
-- Neither project has been confirmed to build or run from this repository.
+- The modernised `MvcAdoDemo` was restored and compiled successfully by [GitHub Actions](https://github.com/kshero18/select_smart/actions/workflows/mvcado-build.yml) on 16 November 2026. **Database connectivity and end-to-end operation have not been verified.** The original `SelectSmart` implementation has not been build-tested.
 - The original `MvcAdoDemo/cpsmart.sql` only creates a database. Newly authored **2026 demo scripts** in `MvcAdoDemo/sql/` now supply a candidate table and stored procedures, plus optional fictional records. These scripts are not recovered 2020 assets.
 - `MvcAdoDemo` reads its database connection string from the local `CPSMART_CONNECTION_STRING` environment variable; no real connection credentials should be committed.
 - Sensitive configuration, SQL Server database files, and personal records are intentionally excluded.
@@ -56,11 +56,12 @@ For the candidate CRUD exercise, see the [MvcAdoDemo-specific README](MvcAdoDemo
 
 - [x] Publish source-only copies on a review branch, excluding local databases and credentials
 - [x] Record technologies, provenance, and known limitations
-- [ ] Resolve the outstanding build/model issues and check that the apps compile
+- [x] Correct ASP.NET Core 3.1 model/compiler errors and confirm `MvcAdoDemo` builds in GitHub Actions
+- [ ] Validate the original ASP.NET MVC 5 implementation separately
 - [x] Add reconstructed SQL schema/stored procedures and fictional example records for the CRUD exercise
 - [x] Fix parameterized lookup, missing-record handling, and basic form issues in MvcAdoDemo
 - [ ] Add screenshots using **synthetic or fully redacted** candidate details
-- [ ] Review and merge modernisation changes after compilation, testing and source-sharing permission checks
+- [ ] Test the SQL CRUD workflow and review source-sharing permission before calling the demo runnable
 
 ### Historical vs subsequent changes
 
