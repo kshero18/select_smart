@@ -1,0 +1,35 @@
+name: Archived ASP.NET Core CRUD build
+
+on:
+  pull_request:
+    paths:
+      - 'MvcAdoDemo/**'
+      - '.github/workflows/mvcado-build.yml'
+  push:
+    branches:
+      - portfolio-modernisation-2026
+    paths:
+      - 'MvcAdoDemo/**'
+      - '.github/workflows/mvcado-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Restore and build MvcAdoDemo
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install .NET SDK 8 (build toolchain; project still targets .NET Core 3.1)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Show SDK version
+        run: dotnet --info
+      - name: Restore
+        run: dotnet restore MvcAdoDemo/MvcAdoDemo.csproj
+      - name: Build (does not start the application or require SQL Server)
+        run: dotnet build MvcAdoDemo/MvcAdoDemo.csproj --configuration Release --no-restore

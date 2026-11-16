@@ -1,8 +1,8 @@
 @model IEnumerable<MvcAdoDemo.Models.candidate>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Candidates";
  }
- <h2>Index</h2>
+ <h2>Candidates</h2>
  <p>
       <a asp-action="Create">Create New</a>
  </p>
@@ -36,6 +36,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Backlogs)
             </th>
+            <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -54,21 +55,11 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Phoneno)
                         </td>
-                        <th>
-                            @Html.DisplayFor(model => item.Dept)
-                        </th>
-                        <th>
-                            @Html.DisplayFor(model => item.skills)
-                        </th>
-                        <th>
-                            @Html.DisplayFor(model => item.Yearofpassing)
-                        </th>
-                        <th>
-                            @Html.DisplayFor(model => item.CGPA)
-                        </th>
-                        <th>
-                            @Html.DisplayFor(model => item.Backlogs)
-                        </th>
+                        <td>@Html.DisplayFor(modelItem => item.Dept)</td>
+                        <td>@Html.DisplayFor(modelItem => item.skills)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Yearofpassing)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CGPA)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Backlogs)</td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Regno">Edit</a> |
                             <a asp-action="Details" asp-route-id="@item.Regno">Details</a> |

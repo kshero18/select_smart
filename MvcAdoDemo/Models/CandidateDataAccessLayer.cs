@@ -2,113 +2,113 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using MvcAdoDemo.Models;
 
 namespace MvcAdoDemo.Models
 {
+    // Modernisation of the recovered 2020 ADO.NET exercise.
     public class CandidateDataAccessLayer
     {
-         string connectionString = Environment.GetEnvironmentVariable("CPSMART_CONNECTION_STRING") ?? throw new InvalidOperationException("Set CPSMART_CONNECTION_STRING before running the application.");   //To View all candidate details
+        private readonly string connectionString =
+            Environment.GetEnvironmentVariable("CPSMART_CONNECTION_STRING")
+            ?? throw new InvalidOperationException(
+                "Set CPSMART_CONNECTION_STRING before running the application.");
+
         public IEnumerable<candidate> GetAllCandidate()
         {
-             List<candidate> lstcandidate = new List<candidate>();
-             using (SqlConnection con = new SqlConnection(connectionString))
+            var result = new List<candidate>();
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = new SqlCommand("cpGetAllCandidate", connection))
             {
-                SqlCommand cmd = new SqlCommand("cpGetAllCandidate", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                con.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
+                command.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                using (var reader = command.ExecuteReader())
                 {
-                    candidate candidate = new candidate();
-                    candidate.Regno = Convert.ToInt32(rdr["Regno"]);
-                    candidate.Name = rdr["Name"].ToString();
-                    candidate.Email = rdr["Email"].ToString();
-                    candidate.Phoneno = rdr["Phoneno"].ToString();
-                    candidate.Dept = rdr["Dept"].ToString();
-                    candidate.skills = rdr["skills"].ToString();
-                    candidate.Yearofpassing = Convert.ToInt32(rdr["Yearofpassing"]);
-                    candidate.Backlogs = Convert.ToInt32(rdr["Backlogs"]);
-                    lstcandidate.Add(candidate);
+                    while (reader.Read())
+                    {
+                        result.Add(MapCandidate(reader));
+                    }
                 }
-                con.Close();
             }
-            return lstcandidate;
-        }                //To Add new candidate record
-        public void AddCandidate(candidate candidate)
+            return result;
+        }
+
+        public void AddCandidate(candidate value)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand("cpAddCandidate", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Regno", candidate.Regno);
-                cmd.Parameters.AddWithValue("@Name", candidate.Name);
-                cmd.Parameters.AddWithValue("@Email", candidate.Email);
-                cmd.Parameters.AddWithValue("@Phoneno", candidate.Phoneno);
-                cmd.Parameters.AddWithValue("@Dept", candidate.Dept);
-                cmd.Parameters.AddWithValue("@skills", candidate.skills);
-                cmd.Parameters.AddWithValue("@Yearofpassing", candidate.Yearofpassing);
-                cmd.Parameters.AddWithValue("@CGPA", candidate.CGPA);
-                cmd.Parameters.AddWithValue("@Backlogs", candidate.Backlogs);
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
-        }    //To Update the records of a particluar candidate
-        public void UpdateCandidate(candidate candidate)
+            ExecuteCandidateProcedure("cpAddCandidate", value);
+        }
+
+        public void UpdateCandidate(candidate value)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand("cpUpdateCandidate", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Regno", candidate.Regno);
-                cmd.Parameters.AddWithValue("@Name", candidate.Name);
-                cmd.Parameters.AddWithValue("@Email", candidate.Email);
-                cmd.Parameters.AddWithValue("@Phoneno", candidate.Phoneno);
-                cmd.Parameters.AddWithValue("@Dept", candidate.Dept);
-                cmd.Parameters.AddWithValue("@skills", candidate.skills);
-                cmd.Parameters.AddWithValue("@Yearofpassing", candidate.Yearofpassing);
-                cmd.Parameters.AddWithValue("@CGPA", candidate.CGPA);
-                cmd.Parameters.AddWithValue("@Backlogs", candidate.Backlogs);
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
-        }     //Get the details of a particular candidate
+            ExecuteCandidateProcedure("cpUpdateCandidate", value);
+        }
+
         public candidate GetCandidateData(int? id)
         {
-            candidate candidate = new candidate();
-            using (SqlConnection con = new SqlConnection(connectionString))
+            if (!id.HasValue) return null;
+
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = new SqlCommand(
+                "SELECT Regno, Name, Email, Phoneno, Dept, skills, Yearofpassing, CGPA, Backlogs " +
+                "FROM dbo.candidate WHERE Regno = @Regno", connection))
             {
-                string sqlQuery = "SELECT * FROM candidate WHERE Regno= " + id;
-                SqlCommand cmd = new SqlCommand(sqlQuery, con);
-                con.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
+                command.Parameters.Add("@Regno", SqlDbType.Int).Value = id.Value;
+                connection.Open();
+                using (var reader = command.ExecuteReader())
                 {
-                    candidate.Regno = Convert.ToInt32(rdr["Regno"]);
-                    candidate.Name = rdr["Name"].ToString();
-                    candidate.Email = rdr["Email"].ToString();
-                    candidate.Phoneno = rdr["Phoneno"].ToString();
-                    candidate.Dept = rdr["Dept"].ToString();
-                    candidate.skills = rdr["skills"].ToString();
-                    candidate.Yearofpassing = Convert.ToInt32(rdr["Yearofpassing"]);
-                    candidate.Backlogs = Convert.ToInt32(rdr["Backlogs"]);
+                    return reader.Read() ? MapCandidate(reader) : null;
                 }
             }
-            return candidate;
-        }   //To Delete the record on a particular candidate
+        }
+
         public void DeleteCandidate(int? id)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            if (!id.HasValue) throw new ArgumentException("Candidate ID is required.", nameof(id));
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = new SqlCommand("cpDeleteCandidate", connection))
             {
-                SqlCommand cmd = new SqlCommand("cpDeleteCandidate", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Regno", id);
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@Regno", SqlDbType.Int).Value = id.Value;
+                connection.Open();
+                command.ExecuteNonQuery();
             }
+        }
+
+        private void ExecuteCandidateProcedure(string procedure, candidate value)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = new SqlCommand(procedure, connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@Regno", SqlDbType.Int).Value = value.Regno;
+                command.Parameters.Add("@Name", SqlDbType.NVarChar, 150).Value = value.Name;
+                command.Parameters.Add("@Email", SqlDbType.NVarChar, 254).Value = value.Email;
+                command.Parameters.Add("@Phoneno", SqlDbType.NVarChar, 30).Value = value.Phoneno;
+                command.Parameters.Add("@Dept", SqlDbType.NVarChar, 20).Value = (object)value.Dept ?? DBNull.Value;
+                command.Parameters.Add("@skills", SqlDbType.NVarChar, 100).Value = (object)value.skills ?? DBNull.Value;
+                command.Parameters.Add("@Yearofpassing", SqlDbType.Int).Value = (object)value.Yearofpassing ?? DBNull.Value;
+                command.Parameters.Add("@CGPA", SqlDbType.Float).Value = (object)value.CGPA ?? DBNull.Value;
+                command.Parameters.Add("@Backlogs", SqlDbType.Int).Value = (object)value.Backlogs ?? DBNull.Value;
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static candidate MapCandidate(SqlDataReader reader)
+        {
+            return new candidate
+            {
+                Regno = reader.GetInt32(reader.GetOrdinal("Regno")),
+                Name = reader["Name"].ToString(),
+                Email = reader["Email"].ToString(),
+                Phoneno = reader["Phoneno"].ToString(),
+                Dept = reader["Dept"] == DBNull.Value ? null : reader["Dept"].ToString(),
+                skills = reader["skills"] == DBNull.Value ? null : reader["skills"].ToString(),
+                Yearofpassing = reader["Yearofpassing"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["Yearofpassing"]),
+                CGPA = reader["CGPA"] == DBNull.Value ? (double?)null : Convert.ToDouble(reader["CGPA"]),
+                Backlogs = reader["Backlogs"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["Backlogs"])
+            };
         }
     }
 }
