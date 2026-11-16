@@ -1,4 +1,4 @@
-# SelectSmart — 2020 C#/.NET Internship Portfolio
+# SelectSmart - 2020 C#/.NET Internship Portfolio
 
 Historical source from a student academic activities and candidate-management project developed during an internship at **Generis Technologies, Bengaluru (January–February 2020)**.
 
