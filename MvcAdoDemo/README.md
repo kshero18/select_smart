@@ -1,6 +1,8 @@
 # MvcAdoDemo — Candidate Management Application
 
-A C# **ASP.NET Core MVC** application for maintaining student/candidate profiles with Microsoft SQL Server. It represents the candidate-management CRUD workflow developed as part of the 2020 SelectSmart internship work.
+A C# **ASP.NET Core MVC** application for maintaining student/candidate profiles with Microsoft SQL Server. This source was created during the **2020 internship** and was one of **two related codebases uploaded to this repository** from the older project materials. The other codebase is the ASP.NET MVC 5 / AngularJS implementation in [`SelectSmart/`](../SelectSmart/).
+
+The two folders are **not verified as sequential versions (v1/v2)** of a single release. The code was uploaded years later as part of a **2026 attempt to recover and restore the 2020 work**, not newly authored from scratch in 2026.
 
 ## What it does
 
@@ -64,7 +66,7 @@ The ASP.NET Core application **builds successfully** in [GitHub Actions](https:/
 
 ## Project context
 
-This is historical internship work, not a currently deployed product. The original source dates to **2020**; later maintenance improved validation, queries and Razor forms. The SQL setup under `sql/` and its fictional sample records were reconstructed for demonstration and should not be mistaken for original internship deliverables.
+This is historical internship source from **2020**, not a currently deployed product. It was uploaded during a **2026 restoration attempt**, alongside the separate `SelectSmart/` implementation. Later maintenance improved validation, queries and Razor forms; the SQL setup under `sql/` and fictional records were reconstructed for demonstration, not recovered from the original 2020 submission. The precise relationship between the two original codebases has not been conclusively established.
 
 **Known limitations:** .NET Core 3.1 is no longer supported; the database-backed application has not yet been runtime-tested; it should not be deployed publicly without an upgrade and security review. The broader SelectSmart project also discusses filtering, Excel workflows and bulk emails, but those are **not features of this CRUD demo**.
 
