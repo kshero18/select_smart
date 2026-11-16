@@ -31,7 +31,8 @@ namespace MvcAdoDemo.Controllers
         {
             if (!id.HasValue) return NotFound();
             var value = data.GetCandidateData(id);
-            return value == null ? NotFound() : View(value);
+            if (value == null) return NotFound();
+            return View(value);
         }
 
         [HttpGet]
@@ -39,7 +40,8 @@ namespace MvcAdoDemo.Controllers
         {
             if (!id.HasValue) return NotFound();
             var value = data.GetCandidateData(id);
-            return value == null ? NotFound() : View(value);
+            if (value == null) return NotFound();
+            return View(value);
         }
 
         [HttpPost]
@@ -58,7 +60,8 @@ namespace MvcAdoDemo.Controllers
         {
             if (!id.HasValue) return NotFound();
             var value = data.GetCandidateData(id);
-            return value == null ? NotFound() : View(value);
+            if (value == null) return NotFound();
+            return View(value);
         }
 
         [HttpPost, ActionName("Delete")]
