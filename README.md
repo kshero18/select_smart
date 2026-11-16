@@ -54,14 +54,15 @@ For the candidate CRUD exercise, see the [MvcAdoDemo-specific README](MvcAdoDemo
 
 ## Portfolio review roadmap
 
-- [x] Publish source-only copies on a review branch, excluding local databases and credentials
+- [x] Publish source-only copies on the default branch, excluding local databases and credentials
 - [x] Record technologies, provenance, and known limitations
 - [x] Correct ASP.NET Core 3.1 model/compiler errors and confirm `MvcAdoDemo` builds in GitHub Actions
 - [ ] Validate the original ASP.NET MVC 5 implementation separately
 - [x] Add reconstructed SQL schema/stored procedures and fictional example records for the CRUD exercise
 - [x] Fix parameterized lookup, missing-record handling, and basic form issues in MvcAdoDemo
 - [ ] Add screenshots using **synthetic or fully redacted** candidate details
-- [ ] Test the SQL CRUD workflow and review source-sharing permission before calling the demo runnable
+- [ ] Test the SQL CRUD workflow using an isolated SQL Server environment before calling the demo runnable
+- [ ] Complete review of the remaining Dependabot security alerts and source-sharing rights
 
 ### Historical vs subsequent changes
 
