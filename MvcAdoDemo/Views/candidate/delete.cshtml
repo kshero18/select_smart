@@ -5,7 +5,7 @@
 <h2>Delete</h2>
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Employees</h4>
+    <h4>Candidate</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -63,7 +63,7 @@
             @Html.DisplayFor(model => model.Backlogs)
         </dd>
     </dl>
-    <form asp-action="Delete">
+    <form asp-action="Delete" asp-route-id="@Model.Regno" method="post">
         <input type="hidden" asp-for="Regno" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
