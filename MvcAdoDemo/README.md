@@ -24,7 +24,7 @@ The original application was created during the 2020 internship. Subsequent comm
 
 ## Local setup (unverified)
 
-> **Do not deploy this archival application as a public-facing service.** .NET Core 3.1 and its older dependencies are unsupported. SQL Server and a compatible .NET SDK are required; compilation and runtime operation have **not yet been verified**.
+> **Do not deploy this archival application as a public-facing service.** .NET Core 3.1 and its older dependencies are unsupported. SQL Server and a compatible .NET SDK are required; the application **has passed a restore and Release build** in GitHub Actions (16 November 2026). SQL Server execution and end-to-end runtime operation remain **unverified**.
 
 1. Use a local/development SQL Server instance. Open SQL Server Management Studio and execute `cpsmart.sql`.
 2. Execute `sql/schema-and-procedures.sql` in the same instance to create `dbo.candidate` and the four stored procedures. This script is a later reconstruction; it is not the original internship schema.
@@ -34,11 +34,14 @@ The original application was created during the 2020 internship. Subsequent comm
 
 ### Validation checklist (not yet completed)
 
-- [ ] Restore and compile the project with compatible tooling
+- [x] Restore and compile the project in GitHub Actions on Windows (16 November 2026; no database used)
 - [ ] Run the SQL scripts against an isolated local SQL Server instance
 - [ ] Test list/details/create/edit/delete using fake candidate data
 - [ ] Check model validation, malformed input and duplicate registration numbers
-- [ ] Review dependency and framework security alerts before any deployment
+- [x] Update `System.Data.SqlClient` from 4.4.0 to 4.8.6 to address reported package advisories
+- [ ] Review remaining dependency and framework security alerts before any deployment
+
+Build status: [GitHub Actions — archived ASP.NET Core build](https://github.com/kshero18/select_smart/actions/workflows/mvcado-build.yml). The passing build still warns that the .NET Core 3.1 target framework is out of support.
 
 ## Archival and security notes
 
